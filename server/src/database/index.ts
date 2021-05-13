@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, Collection } from 'mongodb';
 
 const user = 'user_001';
 const password = 'luckysesh1';
@@ -6,6 +6,11 @@ const cluster = 'cluster0';
 
 const connectionUrl = `mongodb+srv://${user}:${password}@${cluster}.zwry6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const connectToDatabase = async () => {
-    const connection = await MongoClient.connect(connectionUrl, { useNewUrlParser: true });
+    const client = await MongoClient.connect(connectionUrl, { useNewUrlParser: true });
+    const db = client.db('main');
+    return {
+        listings: db.collection('test_listings')
+    }
 }
