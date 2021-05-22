@@ -10,8 +10,6 @@ const mount = async (app: Application ) => {
     server.applyMiddleware({ app, path: '/api'});
     console.log(`Server started at http://localhost:${port}`);
     app.listen(port);
-    const listings = await db.listings.find( {} ).toArray();
-    console.log(`LISTINGS ${JSON.stringify(listings)}`);
 }
 
 mount(express())
