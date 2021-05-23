@@ -3,3 +3,6 @@
 /server/.history
 /server/build
 node_modules/
+.env
+
+npm-debug.log
