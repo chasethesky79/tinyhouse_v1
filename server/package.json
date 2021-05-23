@@ -23,6 +23,7 @@
     },
     "scripts": {
         "start": "nodemon src/index.ts",
-        "build": "tsc -p ./"
+        "build": "tsc -p ./",
+        "seed": "ts-node src/temp/seed.ts"
     }
 }
