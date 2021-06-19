@@ -1,5 +1,6 @@
 import React from 'react';
 import { server } from '../../lib/api';
+import { ListingsData } from './types';
 
 interface Props {
     title: string
@@ -12,15 +13,19 @@ const LISTINGS = `
           title,
           image,
           address,
-          price
+          price,
+          numOfGuests,
+          numOfBeds,
+          numOfBaths,
+          rating
       }
   }
 `
 
 export const Listings = ({ title }: Props) => { 
     const fetchListings = async () => {
-      const { data } = await server.fetch({ query: LISTINGS });
-      console.log(`LISTINGS ${JSON.stringify(data)}`);
+      const { data } = await server.fetch<ListingsData>({ query: LISTINGS });
+      console.log(`LISTINGS ${JSON.stringify(data.listings)}`);
     }
 
     return (
