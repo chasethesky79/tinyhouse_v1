@@ -1,6 +1,7 @@
 import React from 'react';
 import { server } from '../../lib/api';
-import { DeleteListingData, DeleteListingVariables, ListingsData } from './types';
+import { DeleteListingData, DeleteListingVariables, Listing, ListingsData } from './types';
+import { useState } from 'react';
 
 interface Props {
     title: string
@@ -31,8 +32,10 @@ const DELETE_LISTING = `
   
 
 export const Listings = ({ title }: Props) => { 
+    const [listings, setListings] = useState<Listing[] | null>(null);
     const fetchListings = async () => {
       const { data } = await server.fetch<ListingsData>({ query: LISTINGS });
+      setListings(data.listings);
       console.log(`LISTINGS ${JSON.stringify(data.listings)}`);
     }
 
@@ -42,14 +45,17 @@ export const Listings = ({ title }: Props) => {
         variables: {
           id: '60aaa71e7bacb6f18be5f70d'
       }})
-      console.log(`LISTINGS ${JSON.stringify(data.deleteListing)}`);
     }
+    
 
     return (
     <div>
       <h2>{title}</h2>
+      <ul>
+        {listings && listings.map((listing) => <li key={listing.id}>{listing.title}</li>)}
+      </ul>
       <button onClick={fetchListings}>Fetch Listings</button>
       <button onClick={deleteListing}>Delete Listings</button>
     </div>
     )
-} 
+  }
