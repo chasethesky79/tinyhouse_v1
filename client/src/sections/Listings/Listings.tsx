@@ -36,26 +36,32 @@ export const Listings = ({ title }: Props) => {
     const fetchListings = async () => {
       const { data } = await server.fetch<ListingsData>({ query: LISTINGS });
       setListings(data.listings);
-      console.log(`LISTINGS ${JSON.stringify(data.listings)}`);
     }
 
-    const deleteListing = async () => {
+    const deleteListing = async (id : string) => {
       const { data } = await server.fetch<DeleteListingData, DeleteListingVariables>({ 
         query: DELETE_LISTING, 
         variables: {
-          id: '60aaa71e7bacb6f18be5f70d'
+          id
       }})
     }
-    
 
+    const onDeleteListing = (id: string) => {
+      deleteListing(id);
+      fetchListings();
+    }
+    
     return (
     <div>
       <h2>{title}</h2>
       <ul>
-        {listings && listings.map((listing) => <li key={listing.id}>{listing.title}</li>)}
+        {listings && listings.map((listing) => 
+        <>
+           <li key={listing.id}>{listing.title}</li> 
+           <button onClick={() => onDeleteListing(listing.id)}>Delete Listing</button>
+        </>)}
       </ul>
       <button onClick={fetchListings}>Fetch Listings</button>
-      <button onClick={deleteListing}>Delete Listings</button>
     </div>
     )
   }
