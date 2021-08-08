@@ -30,8 +30,7 @@ const DELETE_LISTING = `
 
 
 export const Listings = ({ title }: Props) => { 
-    const {state, refreshListings} = useQuery<ListingsData>({ query: LISTINGS });
-
+    const {state, refreshListings} = useQuery<ListingsData>(LISTINGS);
     const deleteListing = async (id : string) => {
       await server.fetch<DeleteListingData, DeleteListingVariables>({ 
         query: DELETE_LISTING, 
@@ -40,7 +39,6 @@ export const Listings = ({ title }: Props) => {
       }});
       refreshListings();
     }
-
     const onDeleteListing = (id: string) => {
       deleteListing(id);
     }
@@ -49,7 +47,7 @@ export const Listings = ({ title }: Props) => {
     <div>
       <h2>{title}</h2>
       <ul>
-        {state && state?.data?.listings.map((listing: Listing) => 
+        {state?.listings?.map((listing: Listing) => 
            <li key={listing.id}>{listing.title} <button onClick={() => onDeleteListing(listing.id)}>Delete Listing</button></li>
         )}
       </ul>
