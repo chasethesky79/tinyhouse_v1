@@ -1,4 +1,4 @@
-interface Body<TVariables> {
+export interface Body<TVariables> {
     query: string,
     variables?: TVariables
 }

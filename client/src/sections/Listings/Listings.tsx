@@ -30,14 +30,15 @@ const DELETE_LISTING = `
 
 
 export const Listings = ({ title }: Props) => { 
-    const state = useQuery<ListingsData>(LISTINGS);
+    const {state, refreshListings} = useQuery<ListingsData>({ query: LISTINGS });
 
     const deleteListing = async (id : string) => {
       await server.fetch<DeleteListingData, DeleteListingVariables>({ 
         query: DELETE_LISTING, 
         variables: {
           id
-      }})
+      }});
+      refreshListings();
     }
 
     const onDeleteListing = (id: string) => {
