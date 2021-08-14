@@ -13,14 +13,13 @@ interface Result<T> {
 
   export const useQuery = <T = any>(query: string): Result<T> => {
     const [state, setState] = useState<State<T> | null>({ data: null });
-    const [refreshId, setRefreshId] = useState<symbol>(Symbol('refetch.listings'));
-    const refreshListings = useCallback(() => setRefreshId(Symbol('refetch.listings')), []);
-    useEffect(() => {
+    const refreshListings = useCallback(() => {
         const fetchApi = async () => {
             const { data } = await server.fetch<State<T>>({ query });
             setState(data);
           };
           fetchApi();
-    }, [query, refreshId])
+    }, [query]);
+    useEffect(() => refreshListings(), [refreshListings])
     return { state, refreshListings };
   };
