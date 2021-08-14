@@ -42,12 +42,18 @@ export const Listings = ({ title }: Props) => {
     const onDeleteListing = (id: string) => {
       deleteListing(id);
     }
+
+    if (state?.loading) {
+      return (
+        <h2>Loading...</h2>
+      )
+    }
     
     return (
     <div>
       <h2>{title}</h2>
       <ul>
-        {state?.listings?.map((listing: Listing) => 
+        {state?.data?.listings?.map((listing: Listing) => 
            <li key={listing.id}>{listing.title} <button onClick={() => onDeleteListing(listing.id)}>Delete Listing</button></li>
         )}
       </ul>

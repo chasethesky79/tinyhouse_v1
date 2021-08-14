@@ -3,7 +3,8 @@ import { server } from ".";
 
 interface State<T> {
     [x: string]: any;
-    data: T | null
+    data: T | null,
+    loading: boolean
 }
 
 interface Result<T> {
@@ -12,11 +13,12 @@ interface Result<T> {
 }
 
   export const useQuery = <T = any>(query: string): Result<T> => {
-    const [state, setState] = useState<State<T> | null>({ data: null });
+    const [state, setState] = useState<State<T> | null>({ data: null, loading: false });
     const refreshListings = useCallback(() => {
         const fetchApi = async () => {
-            const { data } = await server.fetch<State<T>>({ query });
-            setState(data);
+            setState({ data: null, loading: true })
+            const { data } = await server.fetch<T>({ query });
+            setState({ data, loading: false });
           };
           fetchApi();
     }, [query]);
